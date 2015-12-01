@@ -1,7 +1,6 @@
 local:
-  image: wemeep/notificationservice
+  image: wemeep/wemeep-notification-service
   ports:
     - "8080:8080"
-  command: mvn exec:java
   environment:
-    -GCM-API-KEY
+    - GCM_API_KEY
