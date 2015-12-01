@@ -4,3 +4,4 @@ local:
     - "8080:8080"
   environment:
     - GCM_API_KEY
+    - SOME
