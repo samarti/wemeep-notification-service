@@ -35,20 +35,19 @@ http://host:8080/notifdevice
 http://host:8080/notiftopic
 ```
 Both receive a `POST`request, with required parameters (`id, to, topic, message`) on a `JSON`on the body, for example:
-```curl
+```
 curl -H "Content-Type: application/json" -X POST -d '{"id":1, "message":{"data":"some data", "public":"false"}, "to":"d2u3boTSskQ:AP...dzfv"}' http://host:8080/notifdevice
 ```
 
 ### Notification Message Specification
 The notification message has to follow the following specification
-```json
+```
 { field1: value1, field2:value2, ...}
 ```
-where fields can by of type
-| Name        | Values           | Description  |
-| ------------- |:-------------:| -----:|
-| silent     | true/false | If the notification must be promoted |
-| intent     | Some activity      |   The activity wich must open |
-| type | To be defined     |    type of notification |
-| big-title | String | Big notification title |
-|small-title| String | Small notification text |
+| Name          | Values        | Description                          |
+| ------------- |---------------| -------------------------------------|
+| silent        | true/false    | If the notification must be promoted |
+| intent        | Some activity |   The activity wich must open        |
+| type          | To be defined |    type of notification              |
+| big-title     | String        | Big notification title               |
+|small-title    | String        | Small notification text              |
