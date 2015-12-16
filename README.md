@@ -1,5 +1,4 @@
 # WeMeep Notification Service
----
 ### Description
 This service is responsible for sending notifications to the different client devices, triggered by the very same devices. It uses Google Cloud Messaging framework, through XMPP (CCS) protocol, over a NodeJS-ExpressJS implementation, all contained on a Docker aplication.
 
