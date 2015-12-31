@@ -8,7 +8,9 @@ var jobPayload;
 var xmppClient;
 var connected = false;
 var PORT = 8080;
+//var PORT = 8001;
 var GCM_API_KEY = process.env.GCM_API_KEY;
+//var GCM_API_KEY = "AIzaSyBAxUWFA6aNYnQvFHa8C_vjXv6aLdTHJ14";
 //Base options, not to be changed
 var options = {
   type: 'client',
@@ -60,6 +62,7 @@ function sendNotificationToDevice(id, to, message) {
       "delay_while_idle": false
   };
   var jsonPayload = JSON.stringify(payload);
+  console.log(jsonPayload);
   var ackToDevice = new xmpp.Element('message', {'id': id}).c('gcm', {xmlns: 'google:mobile:data'}).t(jsonPayload);
   xmppClient.send(ackToDevice);
 }
