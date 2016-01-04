@@ -15,6 +15,7 @@ COPY . /src
 EXPOSE 8080
 RUN npm install node-xmpp-client
 RUN npm install node-xmpp-server
+RUN npm install futures
 RUN npm install --save body-parser
 RUN npm test
 CMD ["node", "/src/index.js"]

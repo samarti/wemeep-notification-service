@@ -13,32 +13,21 @@ docker-compose up -d
 Set:
 ````
 - GCM_API_KEY
+- MEEP_SERVICE_URL
+- SESSION_SERVICE_URL
 ````
-### Methods
-- Send notification to device: Sends a notification to a specific device
-```javascript
-function sendNotificationToDevice(id, to, message)
-```
-- Send notification to topic: Sends a notification to a group of devices
-```javascript
-function sendNotificationToTopic(id, topic, message)
-```
 ### WebService
-The web service exposes two methods:
-- If a notification to a device must be sent
+The web service exposes one method:
+- Send a notification
 ```
-http://host:8080/notifdevice
+http://host:8080/notificate
 ```
-- If a notification to a group must be sent
-```
-http://host:8080/notiftopic
-```
-Both receive a `POST`request, with required parameters (`id, to, topic, message`) on a `JSON`on the body, for example:
-```
+It receives a `POST` request, with required parameters on a `JSON` on the body, for example:
+```bash
 curl -H "Content-Type: application/json" -X POST -d '{"id":1, "message":{"data":"some data", "public":"false"}, "to":"d2u3boTSskQ:AP...dzfv"}' http://host:8080/notifdevice
 ```
 
-### Notification Message Specification
+### Post JSON Specification
 The notification message has to follow the following specification
 ```
 { field1: value1, field2:value2, ...}
@@ -46,7 +35,11 @@ The notification message has to follow the following specification
 | Name          | Values        | Description                          |
 | ------------- |---------------| -------------------------------------|
 | silent        | true/false    | If the notification must be promoted |
-| intent        | Some activity |   The activity wich must open        |
-| type          | To be defined |    type of notification              |
-| big-title     | String        | Big notification title               |
-|small-title    | String        | Small notification text              |
+| type          | See below |    Notification type             |
+| senderName     | String    | The sender username            |
+| senderId       | String    | The sender id        |
+| rootMeepId    | String    | Optional, must be specified if the type is newMessage |
+
+#### Notification types
+- newMessage: When a new message is sent and the user is subscribed to the conversation
+- newMeep: When a user sends to another user a direct meep.
