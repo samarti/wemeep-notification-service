@@ -70,32 +70,6 @@ xmppClient.on('connect', function() {
     console.log('connnecting....');
 });
 
-xmppClient.on('authenticate', function(opts, cb) {
-    console.log('AUTH' + opts.jid + ' -> ' + opts.password);
-    cb(null);
-});
-
-xmppClient.on('close', function(){
-	console.log("close");
-	setTimeout(function(){
-    	process.exit(0);
-	}, 1000);
-});
-
-xmppClient.on('disconnect', function(){
-	console.log("disconnect");
-	setTimeout(function(){
-    	process.exit(0);
-	}, 1000);
-});
-
-xmppClient.on('end', function(){
-	console.log("end");
-	setTimeout(function(){
-    	process.exit(0);
-	}, 1000);
-});
-
 function sendNotificationToDevice(to, message) {
   var payload = {
       "to": to,
