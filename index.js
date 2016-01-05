@@ -130,6 +130,7 @@ function newMessage(res, meepId, data){
 }
 
 app.post('/notificate', function(req, res){
+  console.log(connected);
   var silent = req.body.silent;
   var type = req.body.type;
   var senderName = req.body.senderName;
