@@ -9,15 +9,15 @@ var Futures = require("futures");
 var jobPayload;
 var xmppClient;
 var connected = false;
-var PORT = 8080;
-var GCM_API_KEY = process.env.GCM_API_KEY;/*
+var PORT = 8080;/*
+var GCM_API_KEY = process.env.GCM_API_KEY;
 var sessionServiceUrl = process.env.SESSION_SERVICE_URL;
 var meepServiceUrl = process.env.MEEP_SERVICE_URL;*/
 
 //var PORT = 8001;
 var sessionServiceUrl = "http://ec2-54-233-116-227.sa-east-1.compute.amazonaws.com:4567";
-var meepServiceUrl = "http://ec2-54-94-252-8.sa-east-1.compute.amazonaws.com:4567";/*
-var GCM_API_KEY = "AIzaSyBAxUWFA6aNYnQvFHa8C_vjXv6aLdTHJ14";*/
+var meepServiceUrl = "http://ec2-54-94-252-8.sa-east-1.compute.amazonaws.com:4567";
+var GCM_API_KEY = "AIzaSyBAxUWFA6aNYnQvFHa8C_vjXv6aLdTHJ14";
 
 //Base options, not to be changed
 var options = {
