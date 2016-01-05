@@ -163,6 +163,10 @@ function newMessage(res, meepId, data){
   });
 }
 
+app.get('/', function(req, res){
+  res.send("WeMeep Notification Service");
+});
+
 app.post('/notificate', function(req, res){
   console.log(connected);
   var silent = req.body.silent;
