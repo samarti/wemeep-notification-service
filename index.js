@@ -18,7 +18,7 @@ var GCM_API_KEY = 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE';
 var options = {
   type: 'client',
   jid: '124076137297@gcm.googleapis.com',
-  password: GCM_API_KEY,
+  password: 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE',
   port: 5235,
   host: 'gcm.googleapis.com',
   legacySSL: true,
