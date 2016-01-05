@@ -1,7 +1,7 @@
 {
-  "name": "docker-centos-notification-service",
+  "name": "notification-service",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0",
   "description": "Notification service for the WeMeep application",
   "author": "Santiago Marti <samarti@uc.cl>",
   "main": "index.js",
