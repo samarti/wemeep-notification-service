@@ -4,8 +4,7 @@ var xmpp = require('node-xmpp-client');
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require("request");
-var Futures = require("fy
-utures");
+var Futures = require("futures");
 
 var jobPayload;
 var xmppClient;
