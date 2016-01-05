@@ -18,7 +18,7 @@ var GCM_API_KEY = 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE';
 var options = {
   type: 'client',
   jid: '124076137297@gcm.googleapis.com',
-  password: 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE',
+  password: GCM_API_KEY,
   port: 5235,
   host: 'gcm.googleapis.com',
   legacySSL: true,
@@ -26,8 +26,8 @@ var options = {
 };
 
 xmppClient = new xmpp.Client(options);
-xmppClient.connection.socket.setTimeout(0)
-xmppClient.connection.socket.setKeepAlive(true, 10000)
+xmppClient.connection.socket.setTimeout(0);
+xmppClient.connection.socket.setKeepAlive(true, 10000);
 
 xmppClient.on('stanza',
   function(stanza) {
