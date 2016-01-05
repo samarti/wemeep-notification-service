@@ -12,7 +12,7 @@ var connected = false;
 var PORT = 8080;
 var sessionServiceUrl = "http://ec2-54-233-116-227.sa-east-1.compute.amazonaws.com:4567";
 var meepServiceUrl = "http://ec2-54-94-252-8.sa-east-1.compute.amazonaws.com:4567";
-var GCM_API_KEY = "AIzaSyBAxUWFA6aNYnQvFHa8C_vjXv6aLdTHJ14";
+var GCM_API_KEY = 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE';
 
 //Base options, not to be changed
 var options = {
@@ -70,6 +70,32 @@ xmppClient.on('connect', function() {
     console.log('connnecting....');
 });
 
+xmppClient.on('authenticate', function(opts, cb) {
+    console.log('AUTH' + opts.jid + ' -> ' + opts.password);
+    cb(null);
+});
+
+xmppClient.on('close', function(){
+	console.log("close");
+	setTimeout(function(){
+    	process.exit(0);
+	}, 1000);
+});
+
+xmppClient.on('disconnect', function(){
+	console.log("disconnect");
+	setTimeout(function(){
+    	process.exit(0);
+	}, 1000);
+});
+
+xmppClient.on('end', function(){
+	console.log("end");
+	setTimeout(function(){
+    	process.exit(0);
+	}, 1000);
+});
+
 function sendNotificationToDevice(to, message) {
   var payload = {
       "to": to,
@@ -80,7 +106,7 @@ function sendNotificationToDevice(to, message) {
   };
   var jsonPayload = JSON.stringify(payload);
   var someId = Date.now();
-  var ackToDevice = new xmpp.Element('message', {'id': someId}).c('gcm', {xmlns: 'google:mobile:data'}).t(jsonPayload);
+  var ackToDevice = new xmpp.Element('message', {'id': someId, 'userIp': '54.233.117.55'}).c('gcm', {xmlns: 'google:mobile:data'}).t(jsonPayload);
   xmppClient.send(ackToDevice);
 }
 
