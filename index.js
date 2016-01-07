@@ -139,6 +139,7 @@ function newMessage(res, meepId, data){
 }
 
 function newMeep(res, meepId, data){
+  var sequence = Futures.sequence();
   sequence.then(function(next){
     request({
       uri: meepServiceUrl + "/meeps/" + meepId,
