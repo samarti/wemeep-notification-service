@@ -10,6 +10,7 @@ var jobPayload;
 var xmppClient;
 var connected = false;
 var PORT = 8080;
+var RADIUS = 10;
 var sessionServiceUrl = "http://ec2-54-233-116-227.sa-east-1.compute.amazonaws.com:4567";
 var meepServiceUrl = "http://ec2-54-94-252-8.sa-east-1.compute.amazonaws.com:4567";
 var GCM_API_KEY = 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE';
@@ -137,8 +138,45 @@ function newMessage(res, meepId, data){
   });
 }
 
+function newMeep(res, meepId, data){
+  sequence.then(function(next){
+    request({
+      uri: meepServiceUrl + "/meeps/" + meepId,
+      method: "GET",
+      timeout: 10000,
+      followRedirect: true,
+      maxRedirects: 10
+    }, function(error, response, body) {
+      if(error === null) {
+        next(body);
+      } else
+        res.json({"Error":error});
+    });
+  }).then(function(next, response){
+    var jsonData = JSON.parse(response);
+    var id = jsonData.objectId;
+    request({
+      uri: sessionServiceUrl + "/closeusers?lat=" + jsonData.latitude + "&longi=" + jsonData.longitude + "&radius=" + RADIUS,
+      method: "GET",
+      timeout: 10000,
+      followRedirect: true,
+      maxRedirects: 10
+    }, function(error, response, body) {
+      if(error !== null)
+        res.json({"Error":error});
+      else {
+        var resData = JSON.parse(body);
+        for (var i = 0; i < resData.length; i++) {
+            var auxId = resData[i].gcmId;
+            sendNotificationToDevice(auxId, data);
+        }
+      }
+    });
+  });
+}
+
 app.get('/', function(req, res){
-  res.send("WeMeep Notification Service");
+  res.send("WeMeep Notification Service \n Version: 1.0");
 });
 
 app.post('/notificate', function(req, res){
@@ -168,10 +206,11 @@ app.post('/notificate', function(req, res){
   switch(type){
     case "newMessage":
       newMessage(res, rootMeepId, data);
-      res.json({ "Success": "Sent"});
+      res.json({ "Success": "Received"});
       break;
     case "newMeep":
-      res.json({ "Error": "not implemented"});
+      newMeep(res, rootMeepId, data);
+      res.json({ "Success": "Received"});
       break;
     default:
       res.json({"Error":"Unknown"});
