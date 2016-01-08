@@ -43,3 +43,4 @@ The notification message has to follow the following specification
 #### Notification types
 - newMessage: When a new message is sent and the user is subscribed to the conversation
 - newMeep: When a user sends to another user a direct meep.
+- newSecretMeep: When a user sends a secret meep.

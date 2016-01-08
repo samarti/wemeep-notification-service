@@ -156,28 +156,67 @@ function newMeep(res, meepId, data){
   }).then(function(next, response){
     var jsonData = JSON.parse(response);
     var id = jsonData.objectId;
-    request({
-      uri: sessionServiceUrl + "/closeusers?lat=" + jsonData.latitude + "&longi=" + jsonData.longitude + "&radius=" + RADIUS,
-      method: "GET",
-      timeout: 10000,
-      followRedirect: true,
-      maxRedirects: 10
-    }, function(error, response, body) {
-      if(error !== null)
-        res.json({"Error":error});
-      else {
-        var resData = JSON.parse(body);
-        for (var i = 0; i < resData.length; i++) {
-            var auxId = resData[i].gcmId;
-            sendNotificationToDevice(auxId, data);
+
+    if(jsonData.isPublic){
+      request({
+        uri: sessionServiceUrl + "/closeusers?lat=" + jsonData.latitude + "&longi=" + jsonData.longitude + "&radius=" + RADIUS,
+        method: "GET",
+        timeout: 10000,
+        followRedirect: true,
+        maxRedirects: 10
+      }, function(error, response, body) {
+        if(error !== null)
+          res.json({"Error":error});
+        else {
+          var resData = JSON.parse(body);
+          for (var i = 0; i < resData.length; i++) {
+              var auxId = resData[i].gcmId;
+              sendNotificationToDevice(auxId, data);
+          }
         }
-      }
-    });
+      });
+    } else {
+      var sequence2 = Futures.sequence();
+      sequence2.then(function(next){
+        request({
+          uri: meepServiceUrl + "/meeps/" + id + "/receipts",
+          method: "GET",
+          timeout: 10000,
+          followRedirect: true,
+          maxRedirects: 10
+        }, function(error, response, body) {
+          if(error === null) {
+            next(body);
+          } else
+            res.json({"Error":error});
+        });
+
+      }).then(function(next, response){
+        var jsonData = JSON.parse(response);
+        for (var i = 0; i < jsonData.length; i++) {
+            var id = jsonData[i];
+            request({
+              uri: sessionServiceUrl + "/session/" + id.id,
+              method: "GET",
+              timeout: 10000,
+              followRedirect: true,
+              maxRedirects: 10
+            }, function(error, response, body) {
+              if(error !== null)
+                res.json({"Error":error});
+              else {
+                var resData = JSON.parse(body);
+                sendNotificationToDevice(resData.gcmId, data);
+              }
+            });
+          }
+      });
+    }
   });
 }
 
 app.get('/', function(req, res){
-  res.send("WeMeep Notification Service \n Version: 1.0");
+  res.send("<h1>WeMeep Notification Service</h1> <br> <i>Version: 1.0.1</i>");
 });
 
 app.post('/notificate', function(req, res){
@@ -193,7 +232,7 @@ app.post('/notificate', function(req, res){
     res.json({"Error":"Missing fields."});
     return;
   }
-  if(type !== "newMessage" && type !== "newMeep"){
+  if(type !== "newMessage" && type !== "newMeep" || type !== "newSecretMeep"){
     res.json({"Error":"Unrecognized type"});
     return;
   }
