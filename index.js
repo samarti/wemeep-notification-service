@@ -232,7 +232,7 @@ app.post('/notificate', function(req, res){
     res.json({"Error":"Missing fields."});
     return;
   }
-  if(type !== "newMessage" && type !== "newMeep" || type !== "newSecretMeep"){
+  if(type !== "newMessage" && type !== "newMeep"){
     res.json({"Error":"Unrecognized type"});
     return;
   }
