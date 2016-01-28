@@ -101,7 +101,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 function newMessage(res, meepId, data){
   var gcmIds = [];
   var sequence = Futures.sequence();
-
   sequence.then(function(next){
     request({
       uri: meepServiceUrl + "/meeps/" + meepId + "/registrees",
@@ -127,12 +126,15 @@ function newMessage(res, meepId, data){
           followRedirect: true,
           maxRedirects: 10
         }, function(error, response, body) {
-          if(error !== null)
+          if(error !== null){
+            console.log(error);
             res.json({"Error":error});
-          else {
+          } else {
             var resData = JSON.parse(body);
+            console.log(resData);
             for (var i = 0; i < resData.length; i++) {
                 var auxId = resData[i].gcmId;
+                console.log(auxId);
                 sendNotificationToDevice(auxId, data);
             }
           }
@@ -223,14 +225,13 @@ app.get('/', function(req, res){
 });
 
 app.post('/notificate', function(req, res){
-  console.log(connected);
   var silent = req.body.silent;
   var type = req.body.type;
   var senderName = req.body.senderName;
   var senderId = req.body.senderId;
   var rootMeepId = req.body.rootMeepId;
   var meepComment = req.body.meepComment;
-
+  console.log("received");
   if(typeof silent === "undefined" || typeof type === "undefined" || typeof senderName === "undefined" || typeof senderId === "undefined"){
     res.json({"Error":"Missing fields."});
     return;
@@ -249,11 +250,11 @@ app.post('/notificate', function(req, res){
   switch(type){
     case "newMessage":
       newMessage(res, rootMeepId, data);
-      res.json({ "Success": "Received"});
+      res.json({"Success":true});
       break;
     case "newMeep":
       newMeep(res, rootMeepId, data);
-      res.json({ "Success": "Received"});
+      res.json({"Success":true});
       break;
     default:
       res.json({"Error":"Unknown"});
