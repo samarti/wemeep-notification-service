@@ -131,7 +131,10 @@ function newMessage(res, meepId, data){
             res.json({"Error":error});
           else {
             var resData = JSON.parse(body);
-            sendNotificationToDevice(resData.gcmId, data);
+            for (var i = 0; i < resData.length; i++) {
+                var auxId = resData[i].gcmId;
+                sendNotificationToDevice(auxId, data);
+            }
           }
         });
       }
@@ -216,7 +219,7 @@ function newMeep(res, meepId, data){
 }
 
 app.get('/', function(req, res){
-  res.send("<h1>WeMeep Notification Service</h1> <br> <i>Version: 1.0.1</i>");
+  res.send("<h1>WeMeep Notification Service</h1> <br> <i>Version: 1.0.2</i>");
 });
 
 app.post('/notificate', function(req, res){
