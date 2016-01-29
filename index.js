@@ -11,8 +11,8 @@ var xmppClient;
 var connected = false;
 var PORT = 8080;
 var RADIUS = 10;
-var sessionServiceUrl = "http://54.233.99.126:4567";
-var meepServiceUrl = "http://54.232.209.224:4567";
+var sessionServiceUrl = "http://54.233.99.166:4567";
+var meepServiceUrl = "http://54.232.209.214:4567";
 var GCM_API_KEY = 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE';
 
 //Base options, not to be changed
