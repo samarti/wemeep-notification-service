@@ -71,12 +71,16 @@ xmppClient.on('connect', function() {
     console.log('connnecting....');
 });
 
+function randomInt (low, high) {
+    return Math.floor(Math.random() * (high - low) + low);
+}
+
 function sendNotificationToDevice(to, message) {
   message["sound"] = "default";
   message["alert"] = "Una notif";
   var payload = {
       "to": to,
-      "message_id": Date.now() + "",
+      "message_id": randomInt(1, 2000000) + "",
       "data": message,
       "time_to_live": 0,
       "delay_while_idle": false,
