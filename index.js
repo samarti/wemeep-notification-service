@@ -11,8 +11,8 @@ var xmppClient;
 var connected = false;
 var PORT = 8080;
 var RADIUS = 10;
-var sessionServiceUrl = "http://ec2-54-233-116-227.sa-east-1.compute.amazonaws.com:4567";
-var meepServiceUrl = "http://ec2-54-94-252-8.sa-east-1.compute.amazonaws.com:4567";
+var sessionServiceUrl = "http://54.233.99.126:4567";
+var meepServiceUrl = "http://54.232.209.224:4567";
 var GCM_API_KEY = 'AIzaSyBX6i49nObb0Vu84nJ-_NxrYP69us3UamE';
 
 //Base options, not to be changed
@@ -160,8 +160,9 @@ function newMeep(res, meepId, data){
       if(error === null) {
         console.log("Step 1");
         next(body);
-      } else
-        res.json({"Error":error});
+      } else {
+        console.log(error);
+      }
     });
   }).then(function(next, response){
     var jsonData = JSON.parse(response);
