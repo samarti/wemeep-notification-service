@@ -79,7 +79,7 @@ function sendNotificationToDevice(to, message) {
       "time_to_live": 0,
       "delay_while_idle": false,
       "notification": message,
-      "content_available": "true"
+      "content_available": true
   };
   var jsonPayload = JSON.stringify(payload);
   var someId = Date.now();
