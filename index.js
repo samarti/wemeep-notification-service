@@ -81,6 +81,7 @@ function sendNotificationToDevice(to, message) {
   };
   var jsonPayload = JSON.stringify(payload);
   var someId = Date.now();
+  console.log("Sending notification to " + someId);
   var ackToDevice = new xmpp.Element('message', {'id': someId, 'userIp': '54.233.117.55'}).c('gcm', {xmlns: 'google:mobile:data'}).t(jsonPayload);
   xmppClient.send(ackToDevice);
 }
