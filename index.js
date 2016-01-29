@@ -72,6 +72,8 @@ xmppClient.on('connect', function() {
 });
 
 function sendNotificationToDevice(to, message) {
+  message["sound"] = "default";
+  message["alert"] = "Una notif";
   var payload = {
       "to": to,
       "message_id": Date.now() + "",
