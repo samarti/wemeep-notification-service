@@ -77,7 +77,9 @@ function sendNotificationToDevice(to, message) {
       "message_id": Date.now() + "",
       "data": message,
       "time_to_live": 0,
-      "delay_while_idle": false
+      "delay_while_idle": false,
+      "notification": message,
+      "content_available": "true"
   };
   var jsonPayload = JSON.stringify(payload);
   var someId = Date.now();
