@@ -228,7 +228,11 @@ function newMeep(res, meepId, data){
                 res.json({"Error":error});
               else {
                 var resData = JSON.parse(body);
-                sendNotificationToDevice(resData.gcmId, data);
+                console.log(resData);
+                for (var i = 0; i < resData.length; i++) {
+                    var auxId = resData[i].gcmId;
+                    sendNotificationToDevice(auxId, data);
+                }
               }
             });
           }
