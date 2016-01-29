@@ -111,6 +111,7 @@ function newMessage(res, meepId, data){
     }, function(error, response, body) {
       if(error === null) {
         next(body);
+        console.log("Step 1");
       } else
         res.json({"Error":error});
     });
@@ -130,7 +131,9 @@ function newMessage(res, meepId, data){
             console.log(error);
             res.json({"Error":error});
           } else {
+            console.log("Step 2");
             var resData = JSON.parse(body);
+            console.log(resData);
             console.log(resData);
             for (var i = 0; i < resData.length; i++) {
                 var auxId = resData[i].gcmId;
@@ -154,6 +157,7 @@ function newMeep(res, meepId, data){
       maxRedirects: 10
     }, function(error, response, body) {
       if(error === null) {
+        console.log("Step 1");
         next(body);
       } else
         res.json({"Error":error});
@@ -161,7 +165,7 @@ function newMeep(res, meepId, data){
   }).then(function(next, response){
     var jsonData = JSON.parse(response);
     var id = jsonData.objectId;
-
+    console.log("Step 2");
     if(jsonData.isPublic){
       request({
         uri: sessionServiceUrl + "/closeusers?lat=" + jsonData.latitude + "&longi=" + jsonData.longitude + "&radius=" + RADIUS,
@@ -174,6 +178,8 @@ function newMeep(res, meepId, data){
           res.json({"Error":error});
         else {
           var resData = JSON.parse(body);
+          console.log("Step 3");
+          console.log(resData);
           for (var i = 0; i < resData.length; i++) {
               var auxId = resData[i].gcmId;
               sendNotificationToDevice(auxId, data);
@@ -231,7 +237,7 @@ app.post('/notificate', function(req, res){
   var senderId = req.body.senderId;
   var rootMeepId = req.body.rootMeepId;
   var meepComment = req.body.meepComment;
-  console.log("received");
+  console.log("Received on /notificate");
   if(typeof silent === "undefined" || typeof type === "undefined" || typeof senderName === "undefined" || typeof senderId === "undefined"){
     res.json({"Error":"Missing fields."});
     return;
@@ -249,10 +255,12 @@ app.post('/notificate', function(req, res){
   };
   switch(type){
     case "newMessage":
+      console.log("Received on newMessage");
       newMessage(res, rootMeepId, data);
       res.json({"Success":true});
       break;
     case "newMeep":
+      console.log("Received on newMeep");
       newMeep(res, rootMeepId, data);
       res.json({"Success":true});
       break;
