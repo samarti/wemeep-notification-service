@@ -80,6 +80,7 @@ function sendNotificationToDevice(to, message) {
       "delay_while_idle": false,
       "notification": message,
       "content_available": true
+      "priority":"high"
   };
   var jsonPayload = JSON.stringify(payload);
   var someId = Date.now();
