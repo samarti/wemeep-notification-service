@@ -76,8 +76,6 @@ function randomInt (low, high) {
 }
 
 function sendNotificationToDevice(to, message) {
-  message["sound"] = "default";
-  message["alert"] = "Una notif";
   var payload = {
       "to": to,
       "message_id": randomInt(1, 2000000) + "",
@@ -86,7 +84,12 @@ function sendNotificationToDevice(to, message) {
       "delay_while_idle": false,
       "notification": message,
       "content_available": true,
-      "priority":"high"
+      "priority":"high",
+      "aps": {
+        "alert": message["senderName"] + " sent a notification", 
+        "badge": 1,
+        "sound" "default"
+      }
   };
   var jsonPayload = JSON.stringify(payload);
   var someId = Date.now();
