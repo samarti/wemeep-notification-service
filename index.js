@@ -86,9 +86,9 @@ function sendNotificationToDevice(to, message) {
       "content_available": true,
       "priority":"high",
       "aps": {
-        "alert": message["senderName"] + " sent a notification", 
+        "alert": message["senderName"] + " sent a notification",
         "badge": 1,
-        "sound" "default"
+        "sound": "default"
       }
   };
   var jsonPayload = JSON.stringify(payload);
