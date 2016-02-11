@@ -261,7 +261,7 @@ app.post('/notificate', function(req, res){
     res.json({"Error":"Missing fields."});
     return;
   }
-  if(type !== "newMessage" && type !== "newMeep"){
+  if(type !== "newMessage" && type !== "newMeep" && type !== "newSecretMeep"){
     res.json({"Error":"Unrecognized type"});
     return;
   }
@@ -280,6 +280,11 @@ app.post('/notificate', function(req, res){
       break;
     case "newMeep":
       console.log("Received on newMeep");
+      newMeep(res, rootMeepId, data);
+      res.json({"Success":true});
+      break;
+    case "newSecretMeep":
+      console.log("Received on newSecretMeep");
       newMeep(res, rootMeepId, data);
       res.json({"Success":true});
       break;
