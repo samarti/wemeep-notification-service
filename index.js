@@ -202,6 +202,7 @@ function newMeep(res, meepId, data){
       });
     } else {
       var sequence2 = Futures.sequence();
+      data["type"] = "newSecretMeep";
       sequence2.then(function(next){
         request({
           uri: meepServiceUrl + "/meeps/" + id + "/receipts",
